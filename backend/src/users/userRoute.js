@@ -6,8 +6,8 @@ const router = express.Router();
 // Register API endpoint
 router.post("/register", async (req, res) => {
   try {
-    const { userName, email, password } = req.body;
-    const user = new User({ userName, email, password });
+    const { userName, email, password, role } = req.body;
+    const user = new User({ userName, email, password, role });
 
     await user.save();
     console.log("user registered successfully", ` user email - ${email}`);

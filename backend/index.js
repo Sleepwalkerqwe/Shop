@@ -23,8 +23,10 @@ app.use(
 
 // all routes
 const authRoutes = require("./src/users/userRoute");
+const productRoutes = require("./src/products/productRoute");
 
 app.use("/api/auth", authRoutes);
+app.use("/api/product", productRoutes);
 
 async function connectDB() {
   try {
@@ -34,6 +36,7 @@ async function connectDB() {
     console.log(`database error - ${err} ❌`);
   }
 }
+
 app.get("/", (req, res) => {
   console.log("get request - 200");
   res.send("Hello world");

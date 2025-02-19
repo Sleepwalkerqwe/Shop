@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-const verifyToken = (req, res) => {
+const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
+    // const token = req;
     console.log(token);
     if (!token) return res.status(401).send({ message: "Invalid token" });
 
@@ -14,7 +15,7 @@ const verifyToken = (req, res) => {
     req.role = decoded.rolel;
     next();
   } catch (err) {
-    console.error("error while verifying token", error);
+    console.error("error while verifying token", err);
     res.status(401).send({ message: "Error while verifying token" });
   }
 };
