@@ -125,7 +125,9 @@ nav {
 .nav__icons span a:hover {
   color: var(--primary-color);
 }
-
+.no__bullets {
+  list-style-type: none;
+}
 .header__container {
   min-height: 650px;
   background-color: var(--primary-color-light);
