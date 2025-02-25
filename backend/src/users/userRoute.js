@@ -100,7 +100,7 @@ router.put("/user/:id", async (req, res) => {
     res.status(200).send({ userInfo: { userName: user.userName, email: user.email, role: user.role } });
   } catch (err) {
     console.error("Error updating user", err);
-    res.status(500).send({ message: "error updating" });
+    res.status(500).send({ message: "Error updating" });
   }
 });
 module.exports = router;
