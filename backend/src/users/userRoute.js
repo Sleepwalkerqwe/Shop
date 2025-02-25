@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login user endpoing
+// Login endpoing
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -54,6 +54,53 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.error("Error logged in user", error);
     res.status(500).send({ message: "error logged in" });
+  }
+});
+
+// logout endpoint
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.status(200).send({ message: "logged out successfully" });
+});
+
+// delete
+router.delete("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) return res.status(404).send({ message: "user not found" });
+
+    res.status(200).send({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting user", err);
+    res.status(500).send({ message: "error deleting" });
+  }
+});
+
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find({}, "id email role").sort({ createdAt: -1 });
+
+    res.status(200).send(users);
+  } catch (err) {
+    console.error("Error getting user", err);
+    res.status(500).send({ message: "error getting" });
+  }
+});
+
+// update user role
+router.put("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+    const user = await User.findByIdAndUpdate(id, { role }, { new: true });
+
+    if (!user) res.status(404).send({ message: "user not found" });
+    res.status(200).send({ userInfo: { userName: user.userName, email: user.email, role: user.role } });
+  } catch (err) {
+    console.error("Error updating user", err);
+    res.status(500).send({ message: "error updating" });
   }
 });
 module.exports = router;
