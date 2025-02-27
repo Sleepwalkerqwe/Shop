@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+
+import toastr from "../utils/toastConfig";
+
 import CartModal from "../pages/shop/CartModal";
 
 import avatarImg from "../assets/avatar.png";
@@ -9,7 +12,7 @@ import { logout } from "../redux/features/auth/authSlice";
 
 const Navbar = () => {
   const products = useSelector((state) => state.cart.products);
-  const [isCartOpen, setisCartOpen] = useState(false);
+  const [isCartOpen, setisCartOpen] = React.useState(false);
   const handleCartToggle = () => {
     setisCartOpen(!isCartOpen);
   };
@@ -21,7 +24,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // dropdown menus
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [isDropDownOpen, setIsDropDownOpen] = React.useState(false);
   const handDropDownToggle = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
@@ -49,9 +52,9 @@ const Navbar = () => {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      navigate("/");
+      toastr.success("Successfully logout!");
     } catch (error) {
-      console.error("Failed to log out", error);
+      toastr.error("Failed to log out", error);
     }
   };
 
