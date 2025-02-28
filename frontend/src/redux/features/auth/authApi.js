@@ -44,7 +44,7 @@ const authApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
-    updateUerRole: builder.mutation({
+    updateUserRole: builder.mutation({
       query: ({ userId, role }) => ({
         url: `/users/${userId}`,
         method: "PUT",
@@ -69,7 +69,7 @@ export const {
   useLogoutUserMutation,
   useGetUserQuery,
   useDeleteUserMutation,
-  useUpdateUerRoleMutation,
+  useUpdateUserRoleMutation,
   useEditProfileMutation,
 } = authApi;
 export default authApi;
