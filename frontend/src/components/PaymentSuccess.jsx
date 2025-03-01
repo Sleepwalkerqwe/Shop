@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getBaseUrl } from "../utils/baseURL";
 import TimelineStep from "./TimelineStep";
+import { useFetchProductByIdQuery } from "../redux/features/products/productsApi";
 
 const PaymentSuccess = () => {
   const [order, setOrder] = useState(null);
@@ -9,7 +10,7 @@ const PaymentSuccess = () => {
     const sessionId = query.get("session_id");
 
     if (sessionId) {
-      fetch(`${getBaseUrl()}/api/orders/confirm-payment`, {
+      fetch(`${getBaseUrl()}/api/order/confirm-payment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,9 +23,16 @@ const PaymentSuccess = () => {
     }
   }, []);
 
-  if (!order) {
-    return <div>Loading...</div>;
-  }
+  const {
+    data: productData,
+    error,
+    isLoading,
+  } = useFetchProductByIdQuery(order?.products[0].productId, {
+    skip: !order, // Пропустим запрос, если order еще не загружен
+  });
+  console.log("product name is - ", productData?.product?.name);
+
+  if (!order) return <div>Loading...</div>;
 
   const isCompleted = (status) => {
     const statuses = ["pending", "processing", "shipped", "completed"];
@@ -78,6 +86,9 @@ const PaymentSuccess = () => {
   return (
     <section className="section__container rounded p-6">
       <h2 className="text-2xl font-semibold mb-4">Payment {order?.status}</h2>
+      <p className="mb-4">Product: {productData?.product.name}</p>
+      <p className="mb-4">Price: {productData?.product.price}</p>
+
       <p className="mb-4">Order Id: {order?.orderId}</p>
       <p className="mb-8">Status: {order?.status}</p>
 

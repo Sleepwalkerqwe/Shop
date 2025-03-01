@@ -33,7 +33,7 @@ const OrderSummary = () => {
     };
 
     const response = await fetch(
-      `${getBaseUrl()}/api/orders/create-checkout-session`,
+      `${getBaseUrl()}/api/order/create-checkout-session`,
       {
         method: "POST",
         headers: headers,

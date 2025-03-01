@@ -28,7 +28,7 @@ router.post("/create-product", async (req, res) => {
 
     res.status(201).send(savedProduct);
   } catch (err) {
-    console.error("Erorr creating new product", error);
+    console.error("Erorr creating new product", err);
     res.status(500).send({ message: "Error creating new product" });
   }
 });
