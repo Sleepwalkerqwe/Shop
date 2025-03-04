@@ -12,9 +12,17 @@ import { logout } from "../redux/features/auth/authSlice";
 
 const Navbar = () => {
   const products = useSelector((state) => state.cart.products);
-  const [isCartOpen, setisCartOpen] = React.useState(false);
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
+
+  const cartRef = React.useRef(null);
+  const cartButtonRef = React.useRef(null);
+  const dropDownButtonRef = React.useRef(null);
+  const dropDownRef = React.useRef(null);
+
   const handleCartToggle = () => {
-    setisCartOpen(!isCartOpen);
+    console.log("hdfgds");
+    setIsCartOpen(!isCartOpen);
+    console.log(isCartOpen);
   };
 
   // show user if logged in
@@ -58,6 +66,48 @@ const Navbar = () => {
     }
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if clicked outside cart modal and cart button
+      const clickedOutsideCart =
+        cartRef.current && !cartRef.current.contains(event.target);
+      const clickedOutsideButton =
+        cartButtonRef.current && !cartButtonRef.current.contains(event.target);
+
+      // Check if clicked outside dropdown menu and button
+      const clickedOutsideDropDown =
+        dropDownRef.current && !dropDownRef.current.contains(event.target);
+      const clickedOutsideDropDownButton =
+        dropDownButtonRef.current &&
+        !dropDownButtonRef.current.contains(event.target);
+
+      // Close cart if clicked outside cart and button
+      if (clickedOutsideCart && clickedOutsideButton) {
+        setIsCartOpen(false);
+      }
+
+      // Close dropdown if clicked outside dropdown and button
+      if (clickedOutsideDropDown && clickedOutsideDropDownButton) {
+        setIsDropDownOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsCartOpen(false);
+        setIsDropDownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <header className="fixed-nav-bar w-nav">
       <nav className="max-w-screen-2xl mx-auto px-4 flex justify-between items-center">
@@ -90,40 +140,83 @@ const Navbar = () => {
               <i className="ri-search-line"></i>
             </Link>
           </span>
-          <span>
-            <button onClick={handleCartToggle} className="hover:text-primary">
+
+          {/* cart btn */}
+          <div className="relative">
+            <button
+              ref={cartButtonRef}
+              onClick={handleCartToggle}
+              className="hover:text-primary"
+            >
               <i className="ri-shopping-bag-line"></i>
-              <sup className="text-sm inline-block px-1.5 text-white rounded-full  bg-primary text-center">
+              <sup className="text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center">
                 {products.length}
               </sup>
             </button>
-          </span>
+
+            {isCartOpen && (
+              <CartModal
+                ref={cartRef}
+                products={products}
+                isOpen={isCartOpen}
+                onClose={handleCartToggle}
+              />
+            )}
+          </div>
+
+          {/* user icon */}
           <span>
             {user && user ? (
               <>
                 <img
+                  ref={dropDownButtonRef}
                   onClick={handDropDownToggle}
                   src={user?.profileImage || avatarImg}
                   alt=""
                   className="size-6 rounded-full cursor-pointer"
                 />
 
+                {/* dropdown menu */}
                 {isDropDownOpen && (
-                  <div className="absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <div
+                    ref={dropDownRef}
+                    className="absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                  >
                     <ul className="font-medium space-y-4 p-2">
-                      {dropdownMenus.map((menu, index) => (
-                        <li key={index}>
-                          <Link
-                            onClick={() => setIsDropDownOpen(false)}
-                            className="dropdown-items"
-                            to={menu.path}
-                          >
-                            {menu.label}
-                          </Link>
-                        </li>
-                      ))}
+                      {/* Map through dropdown menu items */}
                       <li>
-                        <Link onClick={handleLogout} className="dropdown-items">
+                        <Link
+                          onClick={() => setIsDropDownOpen(false)}
+                          className="dropdown-items"
+                          to="/dashboard"
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          onClick={() => setIsDropDownOpen(false)}
+                          className="dropdown-items"
+                          to="/profile"
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          onClick={() => setIsDropDownOpen(false)}
+                          className="dropdown-items"
+                          to="/settings"
+                        >
+                          Settings
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          onClick={() => setIsDropDownOpen(false)}
+                          className="dropdown-items"
+                          to="/logout"
+                        >
                           Logout
                         </Link>
                       </li>
@@ -132,21 +225,13 @@ const Navbar = () => {
                 )}
               </>
             ) : (
-              <Link to="login">
+              <Link to="/login">
                 <i className="ri-user-line"></i>
               </Link>
             )}
           </span>
         </div>
       </nav>
-
-      {isCartOpen && (
-        <CartModal
-          products={products}
-          isOpen={isCartOpen}
-          onClose={handleCartToggle}
-        />
-      )}
     </header>
   );
 };

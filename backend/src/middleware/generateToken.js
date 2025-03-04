@@ -6,7 +6,8 @@ const generateToken = async (userId) => {
     const user = await User.findById(userId);
     if (!user) throw new Error("User not found");
 
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+    console.log("User email:", user.email); // Логируем email
+    const token = jwt.sign({ userId: user._id, role: user.role, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
 
     return token;
   } catch (err) {

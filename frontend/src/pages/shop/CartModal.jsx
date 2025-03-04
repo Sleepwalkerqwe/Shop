@@ -8,7 +8,7 @@ import {
   updateQuantity,
 } from "../../redux/features/cart/cartSlice";
 
-const CartModal = ({ products, isOpen, onClose }) => {
+const CartModal = React.forwardRef(({ products, isOpen, onClose }, ref) => {
   const dispatch = useDispatch();
 
   const handleQuantity = (type, id) => {
@@ -28,6 +28,7 @@ const CartModal = ({ products, isOpen, onClose }) => {
       style={{ transition: "opacity 300ms" }}
     >
       <div
+        ref={ref}
         className={`fixed right-0 top-0 md:w-1/3 w-full bg-white h-full overflow-y-auto transition-transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
@@ -109,6 +110,6 @@ const CartModal = ({ products, isOpen, onClose }) => {
       </div>
     </div>
   );
-};
+});
 
 export default CartModal;

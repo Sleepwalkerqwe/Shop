@@ -23,6 +23,7 @@ const OrderSummary = () => {
   // payment integration
   const makePayment = async (e) => {
     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+
     const body = {
       products: products,
       userId: user?._id,
@@ -38,15 +39,17 @@ const OrderSummary = () => {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body),
+        credentials: "include",
       }
     );
 
     const session = await response.json();
     console.log("session: ", session);
 
-    const result = stripe.redirectToCheckout({
+    const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
+
     console.log("Result:", result);
     if (result.error) {
       console.log("Error:", result.error);

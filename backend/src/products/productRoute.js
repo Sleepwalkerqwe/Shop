@@ -77,6 +77,17 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// get all products by order
+router.post("/get-all-products", async (req, res) => {
+  try {
+    const { ids } = req.body;
+    const products = await Product.find({ _id: { $in: ids } });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch products" });
+  }
+});
+
 // update product
 router.patch("/update-product/:id", verifyToken, verifyAdmin, async (req, res) => {
   try {

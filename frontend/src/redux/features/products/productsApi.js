@@ -36,7 +36,13 @@ const productsApi = createApi({
       query: (id) => `/${id}`,
       providesTags: (result, error, id) => [{ type: "Products", id }],
     }),
-
+    fetchProductsByIds: builder.query({
+      query: (ids) => ({
+        url: `/get-all-products`, // ты можешь назвать этот маршрут как хочешь
+        method: "POST",
+        body: { ids },
+      }),
+    }),
     AddProduct: builder.mutation({
       query: (newProduct) => ({
         url: "/create-product",
@@ -74,6 +80,7 @@ const productsApi = createApi({
 export const {
   useFetchAllProductsQuery,
   useFetchProductByIdQuery,
+  useFetchProductsByIdsQuery,
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,

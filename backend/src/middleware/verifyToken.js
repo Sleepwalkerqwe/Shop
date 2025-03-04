@@ -3,16 +3,20 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
-    // const token = req;
-    console.log(token);
+    console.log(`token - ${token}`);
+
     if (!token) return res.status(401).send({ message: "Invalid token" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    console.log("Decoded token:", decoded);
 
     if (!decoded) return res.status(401).send({ message: "Not valid token" });
 
     req.userId = decoded.userId;
-    req.role = decoded.rolel;
+    req.role = decoded.role;
+    req.email = decoded.email;
+
+    console.log(`req.email -${req.email}`);
     next();
   } catch (err) {
     console.error("error while verifying token", err);

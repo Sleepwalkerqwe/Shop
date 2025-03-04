@@ -26,11 +26,13 @@ const authRoutes = require("./src/users/userRoute");
 const productRoutes = require("./src/products/productRoute");
 const reviewRoutes = require("./src/reviews/reviewRoute");
 const orderRoutes = require("./src/orders/ordersRoute");
+const statsRoutes = require("./src/stats/statsRoute");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/stats", statsRoutes);
 
 async function connectDB() {
   try {

@@ -1,10 +1,12 @@
 const express = require("express");
 const Order = require("./OrdersModel");
+const verifyToken = require("../middleware/verifyToken");
+const { verifyAdmin } = require("../middleware/virifyAdmin");
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // create checkout session
-router.post("/create-checkout-session", async (req, res) => {
+router.post("/create-checkout-session", verifyToken, async (req, res) => {
   const { products } = req.body;
 
   try {
@@ -30,20 +32,22 @@ router.post("/create-checkout-session", async (req, res) => {
       line_items: lineItems,
       success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `http://localhost:5173/cancel`,
+      customer_email: req.email,
+      customer_creation: "always",
     });
-
+    console.log("user - ", req.body);
     res.json({
       id: session.id,
     });
   } catch (err) {
     console.error("Error creating checkout session", err);
-    res.status(500).send({ message: "Failed to create checkout session" });
+    res.status(500).send({ message: "Failed to create checkout session", err: err.message });
   }
 });
 
 // confirm payment
 
-router.post("/confirm-payment", async (req, res) => {
+router.post("/confirm-payment", verifyToken, async (req, res) => {
   const { session_id } = req.body;
 
   try {
@@ -76,6 +80,76 @@ router.post("/confirm-payment", async (req, res) => {
   } catch (err) {
     console.error("Erorr confirming payment", err);
     res.status(500).send({ message: "Error confirming payment" });
+  }
+});
+
+router.get("/:email", async (req, res) => {
+  const email = req.params.email;
+  if (!email) return res.status(404).send({ message: "Email is required" });
+  try {
+    const orders = await Order.find({ email: email });
+    if (orders.length === 0 || !orders) return res.status(400).send({ order: 0, message: "No orders found for this email" });
+
+    res.status(200).send({ orders });
+  } catch (err) {
+    console.error("Error getting orders by email", err);
+    res.status(500).send({ message: "Failed getting orders by email" });
+  }
+});
+
+// get order by id
+router.get("/order/:id", async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) return res.status(400).send({ order: 0, message: "No orders found for this id" });
+    res.status(200).send(order);
+  } catch (err) {
+    console.error("Error getting orders by user id", err);
+    res.status(500).send({ message: "Failed getting orders by user id" });
+  }
+});
+
+// get all orders
+router.get("/", async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    if (orders.length === 0) return res.status(400).send({ orders: [], message: "No orders found" });
+
+    res.status(200).send(orders);
+  } catch (err) {
+    console.error("Error getting orders", err);
+    res.status(500).send({ message: "Failed getting orders" });
+  }
+});
+
+// update order status
+router.get("/update-order-status", verifyToken, verifyAdmin, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  if (!status) return res.status(400).send({ orders: [], message: "Status is required" });
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(id, { status, updatedAt: new Date() }, { new: True, runValidators: true });
+    if (!updatedOrder) return res.status(400).send({ orders: [], message: "Order not found" });
+
+    res.status(200).json({ message: "Order status updated successfully", order: updatedOrder });
+  } catch (err) {
+    console.error("Error updating order status", err);
+    res.status(500).send({ message: "Failed updating order status" });
+  }
+});
+
+// delete order
+router.delete("/delete-order/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedOrder = await Order.findByIdAndDelete(id);
+    if (!deletedOrder) return res.status(400).send({ orders: [], message: "order not found" });
+
+    res.status(200).json({ message: "Order deleted successfully", order: deletedOrder });
+  } catch (err) {
+    console.error("Error deleting order", err);
+    res.status(500).send({ message: "Failed to delete order" });
   }
 });
 

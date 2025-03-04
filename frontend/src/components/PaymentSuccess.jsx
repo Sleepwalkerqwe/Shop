@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getBaseUrl } from "../utils/baseURL";
 import TimelineStep from "./TimelineStep";
-import { useFetchProductByIdQuery } from "../redux/features/products/productsApi";
+import {
+  useFetchProductByIdQuery,
+  useFetchProductsByIdsQuery,
+} from "../redux/features/products/productsApi";
 
 const PaymentSuccess = () => {
   const [order, setOrder] = useState(null);
@@ -23,14 +26,18 @@ const PaymentSuccess = () => {
     }
   }, []);
 
-  const {
-    data: productData,
-    error,
-    isLoading,
-  } = useFetchProductByIdQuery(order?.products[0].productId, {
-    skip: !order, // Пропустим запрос, если order еще не загружен
-  });
-  console.log("product name is - ", productData?.product?.name);
+  const productIds = React.useMemo(
+    () => order?.products.map((p) => p.productId),
+    [order]
+  );
+  const { data: productData, isLoading: productsLoading } =
+    useFetchProductsByIdsQuery(productIds, {
+      skip: !order,
+    });
+
+  if (productData) console.log("product data-", productData);
+
+  console.log(order?.products);
 
   if (!order) return <div>Loading...</div>;
 
@@ -86,8 +93,12 @@ const PaymentSuccess = () => {
   return (
     <section className="section__container rounded p-6">
       <h2 className="text-2xl font-semibold mb-4">Payment {order?.status}</h2>
-      <p className="mb-4">Product: {productData?.product.name}</p>
-      <p className="mb-4">Price: {productData?.product.price}</p>
+      {productData?.map((product, index) => (
+        <div key={index} className="mb-4">
+          <p>Product: {product.name}</p>
+          <p>Price: {product.price} $</p>
+        </div>
+      ))}
 
       <p className="mb-4">Order Id: {order?.orderId}</p>
       <p className="mb-8">Status: {order?.status}</p>
