@@ -10,6 +10,14 @@ const CategoryPage = () => {
   const { categoryName } = useParams();
   const [filteredProducts, setFilteredProducts] = React.useState([]);
 
+  const [filtersState, setFiltersState] = React.useState({
+    category: 'all',
+    color: 'all',
+    priceRange: '',
+  });
+  const { category, color, priceRange } = filtersState;
+  const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+
   const {
     data: { products = [], totalPages, totalProducts } = {},
     error,
