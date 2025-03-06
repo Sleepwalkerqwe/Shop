@@ -1,47 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-// import products from '../../data/products.json';
-import ProductCards from '../shop/ProductCards';
-
+import products from '../../data/products.json';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
+
+import ProductCards from '../shop/ProductCards';
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
-  const [filteredProducts, setFilteredProducts] = React.useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const [filtersState, setFiltersState] = React.useState({
-    category: 'all',
-    color: 'all',
-    priceRange: '',
-  });
-  const { category, color, priceRange } = filtersState;
-  const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [ProductsPerPage] = React.useState(8);
 
-  const {
-    data: { products = [], totalPages, totalProducts } = {},
-    error,
-    isLoading,
-  } = useFetchAllProductsQuery({
-    category: category !== 'all' ? category : '',
-    color: color !== 'all' ? color : '',
-    minPrice: isNaN(minPrice) ? '' : minPrice,
-    maxPrice: isNaN(maxPrice) ? '' : maxPrice,
-    page: currentPage,
-    limit: ProductsPerPage,
-  });
-  if (isLoading) return <div>Loading....</div>;
-  if (error) return <div>Error loading products.</div>;
+  const queryParams = React.useMemo(
+    () => ({
+      category: 'all',
+      color: 'all',
+      minPrice: '',
+      maxPrice: '',
+      page: currentPage,
+      limit: ProductsPerPage,
+    }),
+    [currentPage, ProductsPerPage]
+  );
 
-  React.useEffect(() => {
+  const { data: { products = [], totalPages, totalProducts } = {}, error, isLoading } = useFetchAllProductsQuery(queryParams);
+  if (products) console.log('products data- ', products);
+
+  useEffect(() => {
     const filtered = products.filter((product) => product.category === categoryName.toLowerCase());
 
     setFilteredProducts(filtered);
-  }, [categoryName]);
+  }, [categoryName, products]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   });
+
   return (
     <>
       <section className="section__container bg-primary-light">

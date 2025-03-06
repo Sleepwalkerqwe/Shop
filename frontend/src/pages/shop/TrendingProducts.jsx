@@ -3,8 +3,27 @@ import ProductCards from './ProductCards';
 
 import products from '../../data/products.json';
 
+import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
+
 const TrendingProducts = () => {
   const [visibleProducts, setVisibleProducts] = React.useState(8);
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [ProductsPerPage] = React.useState(8);
+
+  const queryParams = React.useMemo(
+    () => ({
+      category: 'all',
+      color: 'all',
+      minPrice: '',
+      maxPrice: '',
+      page: currentPage,
+      limit: ProductsPerPage,
+    }),
+    [currentPage, ProductsPerPage]
+  );
+
+  const { data: { products = [], totalPages, totalProducts } = {}, error, isLoading } = useFetchAllProductsQuery(queryParams);
 
   const loadMoreProducts = () => {
     setVisibleProducts((prevCount) => prevCount + 4);

@@ -4,17 +4,8 @@ import ProductCards from '../shop/ProductCards';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 
 const Search = () => {
-  const [filtersState, setFiltersState] = React.useState({
-    category: 'all',
-    color: 'all',
-    priceRange: '',
-  });
-
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ProductsPerPage] = React.useState(8);
-
-  const { category, color, priceRange } = filtersState;
-  const [minPrice, maxPrice] = priceRange.split('-').map(Number);
 
   const queryParams = React.useMemo(
     () => ({
@@ -25,7 +16,7 @@ const Search = () => {
       page: currentPage,
       limit: ProductsPerPage,
     }),
-    [category, color, minPrice, maxPrice, currentPage, ProductsPerPage]
+    [currentPage, ProductsPerPage]
   );
 
   const { data: { products = [], totalPages, totalProducts } = {}, error, isLoading } = useFetchAllProductsQuery(queryParams);
