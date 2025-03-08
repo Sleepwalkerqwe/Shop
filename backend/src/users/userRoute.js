@@ -5,15 +5,29 @@ const router = express.Router();
 
 // Register API endpoint
 router.post("/register", async (req, res) => {
+  const { username, email, password, role } = req.body;
+
   try {
-    const { username, email, password, role } = req.body;
+    // Проверка на существующий email
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    // Проверка на существующий username
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: "Username already in use" });
+    }
+
+    // Если всё ок, создаем пользователя
     const user = new User({ username, email, password, role });
 
     await user.save();
-    console.log("user registered successfully", ` user email - ${email}`);
+    console.log("User registered successfully", `User email - ${email}`);
     res.status(200).send({ message: "User registered successfully" });
   } catch (err) {
-    console.log(`error -${err}`);
+    console.log(`Error: ${err}`);
     res.status(500).send({ message: "Error registering user" });
   }
 });
