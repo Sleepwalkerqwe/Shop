@@ -44,22 +44,23 @@ app.get("/", (req, res) => {
   res.status(200).send("hello from backend");
 });
 
-async function connectDB() {
+async function startServer() {
   try {
     await mongoose.connect(process.env.DATABASE, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("connected to DB successfuly ✅");
+    console.log("connected to DB successfully ✅");
+
+    app.listen(port, () => {
+      console.log(`listening on port - ${port}`);
+    });
   } catch (err) {
     console.log(`database error - ${err} ❌`);
   }
 }
-app.listen(port, () => {
-  connectDB();
-  console.log(`listening on port - ${port}`);
-});
 
+startServer();
 app.post("/uploadImage", (req, res) => {
   uploadImage(req.body.image)
     .then((url) => res.send(url))
