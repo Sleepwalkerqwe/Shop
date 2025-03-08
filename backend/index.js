@@ -41,9 +41,13 @@ app.use("/api/stats", statsRoutes);
 app.get("/", (req, res) => {
   res.status(200).send("hello from backend");
 });
+
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.DATABASE);
+    await mongoose.connect(process.env.DATABASE, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("connected to DB successfuly ✅");
   } catch (err) {
     console.log(`database error - ${err} ❌`);
