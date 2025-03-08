@@ -1,3 +1,3 @@
 export const getBaseUrl = () => {
-  return 'https://shop-backend-lime.vercel.app';
+  return 'https://shop-backend-1hhs01tbi-sleepwalkerqwes-projects.vercel.app';
 };
