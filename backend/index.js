@@ -38,6 +38,9 @@ app.use("/api/review", reviewRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/stats", statsRoutes);
 
+app.get("/", (req, res) => {
+  res.status(200).send("hello from backend");
+});
 async function connectDB() {
   try {
     await mongoose.connect(process.env.DATABASE);
