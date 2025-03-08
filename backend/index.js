@@ -39,6 +39,8 @@ app.use("/api/order", orderRoutes);
 app.use("/api/stats", statsRoutes);
 
 app.get("/", (req, res) => {
+  console.log(1231231);
+
   res.status(200).send("hello from backend");
 });
 
