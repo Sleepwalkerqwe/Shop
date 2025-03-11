@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import instaImg1 from "../assets/instagram-1.jpg";
-import instaImg2 from "../assets/instagram-2.jpg";
-import instaImg3 from "../assets/instagram-3.jpg";
-import instaImg4 from "../assets/instagram-4.jpg";
-import instaImg5 from "../assets/instagram-5.jpg";
-import instaImg6 from "../assets/instagram-6.jpg";
+import instaImg1 from '../assets/instagram-1.jpg';
+import instaImg2 from '../assets/instagram-2.jpg';
+import instaImg3 from '../assets/instagram-3.jpg';
+import instaImg4 from '../assets/instagram-4.jpg';
+import instaImg5 from '../assets/instagram-5.jpg';
+import instaImg6 from '../assets/instagram-6.jpg';
 
 const Footer = () => {
   return (
     <>
-      <footer className="section__container footer__container">
+      <footer id="footer" className="section__container footer__container">
         <div className="footer__col">
           <h4>CONTACT INFO</h4>
           <p>
@@ -63,9 +63,7 @@ const Footer = () => {
         </div>
       </footer>
 
-      <div className="footer__bar">
-        Copyright © 2025 by Sleep. All rights reserved.
-      </div>
+      <div className="footer__bar">Copyright © 2025 by Sleep. All rights reserved.</div>
     </>
   );
 };

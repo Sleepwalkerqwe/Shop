@@ -65,6 +65,11 @@ const Navbar = () => {
     }
   };
 
+  const scrollToFooter = () => {
+    const footerElement = document.getElementById('footer');
+    if (footerElement) footerElement.scrollIntoView({ behavior: 'smooth' });
+  };
+
   React.useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if clicked outside cart modal and cart button
@@ -115,8 +120,11 @@ const Navbar = () => {
           <li className="link">
             <Link to="/">Pages</Link>
           </li>
+
           <li className="link">
-            <Link to="/contact">Contact</Link>
+            <span onClick={scrollToFooter} style={{ cursor: 'pointer' }}>
+              Contact
+            </span>
           </li>
         </ul>
 

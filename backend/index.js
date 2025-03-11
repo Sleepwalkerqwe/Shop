@@ -27,6 +27,7 @@ const productRoutes = require("./src/products/productRoute");
 const reviewRoutes = require("./src/reviews/reviewRoute");
 const orderRoutes = require("./src/orders/ordersRoute");
 const statsRoutes = require("./src/stats/statsRoute");
+const dealsRoutes = require("./src/deal/dealsRoute");
 
 // image upload
 const uploadImage = require("./src/utils/uploadImage");
@@ -37,6 +38,7 @@ app.use("/api/product", productRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api/deal", dealsRoutes);
 
 app.get("/", (req, res) => {
   console.log(1231231);

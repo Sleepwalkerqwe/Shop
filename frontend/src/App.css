@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
   --primary-color: #ed3849;
@@ -11,7 +11,7 @@
   --max-width-1400: 1400px;
   --max-width-1200: 1200px;
   --max-width-900: 900px;
-  --header-font: "Playfair Display", serif;
+  --header-font: 'Playfair Display', serif;
 }
 
 * {
@@ -42,6 +42,13 @@
   text-align: center;
 }
 
+.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: blur(0) !important;
+  transform: translateX(0) !important;
+}
+
 .btn {
   padding: 0.75rem 1.5rem;
   outline: none;
@@ -68,7 +75,7 @@ a {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 nav {
@@ -240,6 +247,15 @@ nav {
 
 .hero__card img {
   border-radius: 5px;
+}
+
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+
+  visibility: hidden; /* Элемент невидим и не влияет на layout */
+  transform: translateX(-100%);
+  transition: all 1s;
 }
 
 .product__grid {
@@ -572,20 +588,20 @@ nav {
   }
 }
 
-.nav__icons span a.dropdown-items{
+.nav__icons span a.dropdown-items {
   font-size: 16px;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 .add-product-InputCSS {
-  @apply mt-1 block py-2.5 px-4 w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm
+  @apply mt-1 block py-2.5 px-4 w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
 }
 
-.add-product-btn{
-  @apply mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+.add-product-btn {
+  @apply mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
 }
