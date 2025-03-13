@@ -1,4 +1,3 @@
 export const getBaseUrl = () => {
-  return 'https://shop-backend-lime.vercel.app';
-  // return 'http://localhost:5000';
+  return import.meta.env.VITE_API_BASE_URL;
 };

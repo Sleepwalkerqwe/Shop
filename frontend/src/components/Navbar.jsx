@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 
 import toastr from '../utils/toastConfig';
 
@@ -138,47 +139,51 @@ const Navbar = () => {
         {/* nav icons */}
         <div className="nav__icons relative">
           <span>
-            <Link to="/search">
+            <Link to="/search" className="inline-block hover:text-primary transition-all duration-300  hover:scale-125">
               <i className="ri-search-line"></i>
             </Link>
           </span>
 
           {/* cart btn */}
           <div className="relative">
-            <button ref={cartButtonRef} onClick={handleCartToggle} className="hover:text-primary">
+            <button ref={cartButtonRef} onClick={handleCartToggle} className="inline-block hover:text-primary transition-all duration-300 hover:scale-125">
               <i className="ri-shopping-bag-line"></i>
               <sup className="text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center">{products.length}</sup>
             </button>
 
-            {isCartOpen && <CartModal ref={cartRef} products={products} isOpen={isCartOpen} onClose={handleCartToggle} />}
+            <CSSTransition in={isCartOpen} timeout={300} classNames="cart-modal" unmountOnExit>
+              <CartModal ref={cartRef} products={products} isOpen={isCartOpen} onClose={handleCartToggle} />
+            </CSSTransition>
           </div>
 
           {/* user icon */}
           <span>
             {user && user ? (
               <>
-                <img ref={dropDownButtonRef} onClick={handDropDownToggle} src={user?.profileImage || avatarImg} alt="" className="size-6 rounded-full cursor-pointer" />
+                <img ref={dropDownButtonRef} onClick={handDropDownToggle} src={user?.profileImage || avatarImg} alt="User avatar" className="size-7 rounded-full cursor-pointer transition-transform duration-300 hover:scale-110" />
 
                 {/* dropdown menu */}
-                {isDropDownOpen && (
-                  <div ref={dropDownRef} className="absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                    <ul className="font-medium space-y-4 p-2">
-                      {/* Map through dropdown menu items */}
-                      {dropdownMenus.map((menu, index) => (
-                        <li key={index}>
-                          <Link onClick={() => setIsDropDownOpen(false)} className="dropdown-items" to={menu.path}>
-                            {menu.label}
-                          </Link>
-                        </li>
-                      ))}
-                      <li>
-                        <Link onClick={handleLogout} className="dropdown-items">
-                          Logout
+                <div
+                  ref={dropDownRef}
+                  className={`absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transform transition-all duration-300 ease-in-out 
+    ${isDropDownOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}
+  `}
+                >
+                  <ul className="font-medium space-y-4 p-2">
+                    {dropdownMenus.map((menu, index) => (
+                      <li key={index}>
+                        <Link onClick={() => setIsDropDownOpen(false)} className="dropdown-items" to={menu.path}>
+                          {menu.label}
                         </Link>
                       </li>
-                    </ul>
-                  </div>
-                )}
+                    ))}
+                    <li>
+                      <Link onClick={handleLogout} className="dropdown-items">
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </>
             ) : (
               <Link to="/login">

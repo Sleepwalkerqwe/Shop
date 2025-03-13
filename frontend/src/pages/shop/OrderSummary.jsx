@@ -1,10 +1,10 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadStripe } from "@stripe/stripe-js";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadStripe } from '@stripe/stripe-js';
 
-import { clearCart } from "../../redux/features/cart/cartSlice";
+import { clearCart } from '../../redux/features/cart/cartSlice';
 
-import { getBaseUrl } from "../../utils/baseURL";
+import { getBaseUrl } from '../../utils/baseURL';
 
 const OrderSummary = () => {
   const dispatch = useDispatch();
@@ -12,9 +12,7 @@ const OrderSummary = () => {
 
   const products = useSelector((store) => store.cart.products);
 
-  const { selectedItems, totalPrice, tax, taxRate, grandTotal } = useSelector(
-    (store) => store.cart
-  );
+  const { selectedItems, totalPrice, tax, taxRate, grandTotal } = useSelector((store) => store.cart);
 
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -30,29 +28,26 @@ const OrderSummary = () => {
     };
 
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
-    const response = await fetch(
-      `${getBaseUrl()}/api/order/create-checkout-session`,
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${getBaseUrl()}/api/order/create-checkout-session`, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body),
+      credentials: 'include',
+    });
 
     const session = await response.json();
-    console.log("session: ", session);
+    console.log('session: ', session);
 
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
 
-    console.log("Result:", result);
+    console.log('Result:', result);
     if (result.error) {
-      console.log("Error:", result.error);
+      console.log('Error:', result.error);
     }
   };
 
@@ -66,13 +61,13 @@ const OrderSummary = () => {
           Tax ({taxRate * 100}%): ${tax.toFixed(2)}
         </p>
         <h3 className="font-bold">GrandTotal: ${grandTotal.toFixed(2)}</h3>
-        <div className="px-4 mb-6">
+        <div className="mb-6 animate-fade-in">
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleClearCart();
             }}
-            className="bg-red-500 px-3 py-1.5 text-white  mt-2 rounded-md flex justify-between items-center mb-4"
+            className="bg-red-500 px-3 py-1.5 text-white mt-2 rounded-md flex justify-between items-center mb-4 transition-all duration-300 hover:bg-red-600 active:scale-95 shadow hover:shadow-md"
           >
             <span className="mr-2">Clear cart</span>
             <i className="ri-delete-bin-7-line"></i>
@@ -83,7 +78,7 @@ const OrderSummary = () => {
               e.stopPropagation();
               makePayment();
             }}
-            className="bg-green-600 px-3 py-1.5 text-white  mt-2 rounded-md flex justify-between items-center"
+            className="bg-green-600 px-3 py-1.5 text-white mt-2 rounded-md flex justify-between items-center transition-all duration-300 hover:bg-green-700 active:scale-95 shadow hover:shadow-md"
           >
             <span className="mr-2">Proceed Checkout</span>
             <i className="ri-bank-card-line"></i>
