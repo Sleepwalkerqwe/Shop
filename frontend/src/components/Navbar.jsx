@@ -119,13 +119,11 @@ const Navbar = () => {
             <Link to="/shop">Shop</Link>
           </li>
           <li className="link">
-            <Link to="/">Pages</Link>
+            <Link to="/">Pages</Link>т
           </li>
 
           <li className="link">
-            <span onClick={scrollToFooter} style={{ cursor: 'pointer' }}>
-              Contact
-            </span>
+            <span onClick={scrollToFooter}>Contact</span>
           </li>
         </ul>
 

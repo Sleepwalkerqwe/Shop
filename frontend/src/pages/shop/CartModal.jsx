@@ -21,8 +21,9 @@ const CartModal = React.forwardRef(({ products, isOpen, onClose }, ref) => {
         <div className="p-4 mt-4">
           <div className="flex justify-between items-center mb-4">
             <h4 className="text-xl font-semibold">Your Cart</h4>
+
             <button onClick={onClose} className="text-gray-600 hover:text-primary transition-colors duration-300 ease-in-out p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-              <i className="ri-xrp-fill bg-primary p-1 text-white rounded-full"></i>
+              <i className="ri-close-large-line bg-primary p-1 text-white rounded-full"></i>
             </button>
           </div>
 
