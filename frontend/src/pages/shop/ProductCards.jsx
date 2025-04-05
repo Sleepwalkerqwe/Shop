@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -7,10 +7,10 @@ import { addToCart } from '../../redux/features/cart/cartSlice';
 
 const ProductCards = ({ products }) => {
   const dispatch = useDispatch();
-  const cardRefs = useRef([]);
+  const cardRefs = React.useRef([]);
 
   // Используем IntersectionObserver
-  useEffect(() => {
+  React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

@@ -725,12 +725,27 @@ nav {
   gap: 1rem;
 }
 
+.instagram__grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: cover; /* Чтобы изображения заполнили ячейки */
+}
+
 .footer__bar {
   padding: 1rem;
   text-align: center;
   font-size: 0.8rem;
   color: var(--text-light);
   border-top: 2px solid var(--extra-light);
+}
+
+.footer-link {
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #d23141; /* Цвет на hover (можно заменить на любой другой) */
 }
 
 @media (width < 900px) {

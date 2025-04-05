@@ -21,7 +21,6 @@ const Navbar = () => {
   const dropDownRef = React.useRef(null);
 
   const handleCartToggle = () => {
-    console.log('hdfgds');
     setIsCartOpen(!isCartOpen);
     console.log(isCartOpen);
   };

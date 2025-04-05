@@ -3,6 +3,15 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      keyframes: {
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-in-up': 'fade-in-up 0.7s ease-out forwards',
+      },
       maxWidth: {
         'screen-2xl': '1400px',
         'custom-1200': '1200px',
@@ -18,5 +27,6 @@ export default {
       },
     },
   },
+  safelist: ['opacity-0', 'opacity-100', 'translate-y-0', 'translate-y-8', 'transition-all', 'duration-700', 'ease-out'],
   plugins: [],
 };

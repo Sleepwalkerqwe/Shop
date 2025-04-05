@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import ProductCards from './ProductCards';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 import SkeletonCard from '../../components/SkeletonCard';
 
 const TrendingProducts = () => {
-  const [visibleProducts, setVisibleProducts] = useState(8);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ProductsPerPage] = useState(8);
-  const [isInView, setIsInView] = useState(false); // Состояние для отслеживания видимости
-  const [loading, setLoading] = useState(true); // Состояние загрузки
+  const [visibleProducts, setVisibleProducts] = React.useState(8);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [ProductsPerPage] = React.useState(8);
+  const [isInView, setIsInView] = React.useState(false); // Состояние для отслеживания видимости
+  const [loading, setLoading] = React.useState(true); // Состояние загрузки
 
   const queryParams = React.useMemo(
     () => ({
@@ -25,7 +25,7 @@ const TrendingProducts = () => {
   const { data: { products = [], totalPages, totalProducts } = {}, error, isLoading } = useFetchAllProductsQuery(queryParams);
 
   // Устанавливаем состояние загрузки на false, когда данные загружены
-  useEffect(() => {
+  React.useEffect(() => {
     if (!isLoading) {
       setLoading(false);
     }
@@ -35,10 +35,10 @@ const TrendingProducts = () => {
     setVisibleProducts((prevCount) => prevCount + 4);
   };
 
-  const observerRef = useRef();
+  const observerRef = React.useRef();
 
   // Создаем наблюдатель видимости для элементов
-  useEffect(() => {
+  React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -64,7 +64,7 @@ const TrendingProducts = () => {
     };
   }, [products]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const threshold = document.documentElement.scrollHeight - 200;
@@ -95,11 +95,6 @@ const TrendingProducts = () => {
             ))}
           </div>
         ) : (
-          // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          //   {Array.from({ length: visibleProducts }).map((_, i) => (
-          //     <SkeletonCard key={i} />
-          //   ))}
-          // </div>
           <ProductCards products={products.slice(0, visibleProducts)} />
         )}
       </div>
