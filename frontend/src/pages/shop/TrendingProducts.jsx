@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ProductCards from './ProductCards';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
+import SkeletonCard from '../../components/SkeletonCard';
 
 const TrendingProducts = () => {
   const [visibleProducts, setVisibleProducts] = useState(8);
@@ -88,8 +89,17 @@ const TrendingProducts = () => {
       {/* products card */}
       <div className="mt-12" ref={observerRef}>
         {loading ? (
-          <div>Loading...</div> // Можно добавить спиннер или текст, пока данные загружаются
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {Array.from({ length: visibleProducts }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
         ) : (
+          // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          //   {Array.from({ length: visibleProducts }).map((_, i) => (
+          //     <SkeletonCard key={i} />
+          //   ))}
+          // </div>
           <ProductCards products={products.slice(0, visibleProducts)} />
         )}
       </div>
