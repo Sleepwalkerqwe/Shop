@@ -3,6 +3,7 @@ import React from 'react';
 import ProductCards from './ProductCards';
 import ShopFiltering from './ShopFiltering';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
+import ShopPageSkeleton from './ShopPageSkeleton';
 
 const filters = {
   categories: ['all', 'accessories', 'dress', 'jewellery', 'cosmetics'],
@@ -57,7 +58,7 @@ const ShopPage = () => {
     }
   };
 
-  if (isLoading) return <div>Loading....</div>;
+  if (isLoading) return <ShopPageSkeleton />;
   if (error) return <div>Error loading products.</div>;
 
   const startProduct = (currentPage - 1) * ProductsPerPage + 1;

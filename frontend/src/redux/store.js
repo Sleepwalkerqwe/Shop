@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import cartReducer from './features/cart/cartSlice';
+import { loadCartState, saveCartState } from './localStorage'; // ✅ не забудь импорт
+
 import authApi from './features/auth/authApi';
 import authReducer from './features/auth/authSlice';
 import productsApi from './features/products/productsApi';
@@ -20,5 +22,12 @@ export const store = configureStore({
     [orderApi.reducerPath]: orderApi.reducer,
     [dealsApi.reducerPath]: dealsApi.reducer,
   },
+  preloadedState: {
+    cart: loadCartState(), // Загружаем корзину из localStorage
+  },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, productsApi.middleware, reviewApi.middleware, statsApi.middleware, orderApi.middleware, dealsApi.middleware),
+});
+
+store.subscribe(() => {
+  saveCartState(store.getState().cart); // Сохраняем корзину при изменении
 });

@@ -8,7 +8,6 @@ const verifyToken = (req, res, next) => {
     if (!token) return res.status(401).send({ message: "Invalid token" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log("Decoded token:", decoded);
 
     if (!decoded) return res.status(401).send({ message: "Not valid token" });
 
@@ -16,9 +15,11 @@ const verifyToken = (req, res, next) => {
     req.role = decoded.role;
     req.email = decoded.email;
 
-    console.log(`req.email -${req.email}`);
     next();
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Session expired, please login again." });
+    }
     console.error("error while verifying token", err);
     res.status(401).send({ message: "Error while verifying token" });
   }

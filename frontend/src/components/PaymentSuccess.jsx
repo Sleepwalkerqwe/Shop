@@ -88,7 +88,7 @@ const PaymentSuccess = () => {
 
   return (
     <section className="section__container rounded p-6">
-      <h2 className="text-2xl font-semibold mb-4">Payment {order?.status}</h2>
+      <h2 className="text-2xl font-semibold mb-8">Payment {order?.status}</h2>
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         {productData?.map((product, index) => (
           <Link to={`/shop/${product._id}`} key={index}>
@@ -102,7 +102,7 @@ const PaymentSuccess = () => {
         ))}
       </div>
 
-      <p className="mb-4">Order Id: {order?.orderId}</p>
+      <p className="mb-4 mt-14">Order Id: {order?.orderId}</p>
       <p className="mb-16">Status: {order?.status}</p>
 
       <ol className="sm:flex items-center relative ">

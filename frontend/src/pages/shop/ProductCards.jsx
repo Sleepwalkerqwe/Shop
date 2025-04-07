@@ -1,9 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 import RatingStars from '../../components/RatingStars';
 import { addToCart } from '../../redux/features/cart/cartSlice';
+import toastr from '../../utils/toastConfig';
+import { getBaseUrl } from '../../utils/baseURL';
 
 const ProductCards = ({ products }) => {
   const dispatch = useDispatch();
@@ -36,8 +39,38 @@ const ProductCards = ({ products }) => {
     };
   }, [products]);
 
-  const handleAddToCart = (product) => {
+  const navigate = useNavigate();
+  // Функция проверки авторизации
+  const checkAuth = async () => {
+    try {
+      const response = await axios.get(`${getBaseUrl()}/auth-check`, { withCredentials: true });
+      return response.status === 200;
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toastr.error('Session expired or you are not logged in');
+
+        return false;
+      }
+      console.error('Error checking authorization', error);
+      return false;
+    }
+  };
+  const handleAddToCart = async (product) => {
+    const isAuthorized = await checkAuth();
+
+    if (!isAuthorized) {
+      setError('Session expired or you are not logged in. Please login first.');
+      toastr.error('Session expired or you are not logged in. Please login first.');
+      // Перенаправляем на страницу входа
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000); // можно задать задержку, чтобы пользователь успел увидеть ошибку
+      return;
+    } else {
+      console.log('Successfuly auth');
+    }
     dispatch(addToCart(product));
+    toastr.success('Product successfully added');
   };
 
   return (

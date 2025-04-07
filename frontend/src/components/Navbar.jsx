@@ -29,7 +29,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [logoutUser] = useLogoutUserMutation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // dropdown menus
   const [isDropDownOpen, setIsDropDownOpen] = React.useState(false);

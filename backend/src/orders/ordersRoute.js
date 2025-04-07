@@ -32,10 +32,10 @@ router.post("/create-checkout-session", verifyToken, async (req, res) => {
       mode: "payment",
       line_items: lineItems,
 
-      // success_url: `https://shop-lovat-seven.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.API_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
 
-      cancel_url: `https://shop-lovat-seven.vercel.app/cancel`,
+      // success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://shop-lovat-seven.vercel.app`,
       customer_email: req.email,
       customer_creation: "always",
     });
@@ -133,12 +133,16 @@ router.get("/", async (req, res) => {
 });
 
 // update order status
-router.get("/update-order-status", verifyToken, verifyAdmin, async (req, res) => {
+router.patch("/update-order-status/:id", verifyToken, verifyAdmin, async (req, res) => {
+  console.log("get an updte req");
+
   const { id } = req.params;
   const { status } = req.body;
   if (!status) return res.status(400).send({ orders: [], message: "Status is required" });
   try {
-    const updatedOrder = await Order.findByIdAndUpdate(id, { status, updatedAt: new Date() }, { new: True, runValidators: true });
+    const updatedOrder = await Order.findByIdAndUpdate(id, { status, updatedAt: new Date() }, { new: true, runValidators: true });
+    console.log("Order not found");
+
     if (!updatedOrder) return res.status(400).send({ orders: [], message: "Order not found" });
 
     res.status(200).json({ message: "Order status updated successfully", order: updatedOrder });

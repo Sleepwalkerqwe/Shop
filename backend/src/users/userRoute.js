@@ -4,6 +4,7 @@ const generateToken = require("../middleware/generateToken");
 const router = express.Router();
 
 // Register API endpoint
+
 router.post("/register", async (req, res) => {
   const { username, email, password, role } = req.body;
 
@@ -35,6 +36,7 @@ router.post("/register", async (req, res) => {
 // Login endpoing
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) return res.status(400).send({ message: "Email and password are required" });
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).send({ message: "No users with that email was found" });
@@ -49,6 +51,7 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 дней
     });
 
     res.status(200).send({
@@ -65,7 +68,7 @@ router.post("/login", async (req, res) => {
     });
     //
   } catch (err) {
-    console.error("Error logged in user", error);
+    console.error("Error logged in user", err.message);
     res.status(500).send({ message: "error logged in" });
   }
 });

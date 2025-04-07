@@ -2,6 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
+
+const helmet = require("helmet");
+const { globalLimiter } = require("./src/utils/globalLimiter");
+// const xss = require("xss-clean");
+
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -21,28 +26,31 @@ app.use(
   })
 );
 
+app.use(helmet()); // Защита от XSS, Clickjacking, sniffing и др.
+app.use(globalLimiter);
+// app.use(xss());
+
 // all routes
-const authRoutes = require("./src/users/userRoute");
+const userRoutes = require("./src/users/userRoute");
 const productRoutes = require("./src/products/productRoute");
 const reviewRoutes = require("./src/reviews/reviewRoute");
 const orderRoutes = require("./src/orders/ordersRoute");
 const statsRoutes = require("./src/stats/statsRoute");
 const dealsRoutes = require("./src/deal/dealsRoute");
-
+const authRoutes = require("./src/auth/authRoute");
 // image upload
 const uploadImage = require("./src/utils/uploadImage");
 
 // all routes
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", userRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/deal", dealsRoutes);
+app.use("/auth-check", authRoutes);
 
 app.get("/", (req, res) => {
-  console.log(1231231);
-
   res.status(200).send("hello from backend");
 });
 
