@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap");
-@import "tailwindcss";
 
 :root {
   --primary-color: #ed3849;
@@ -125,9 +124,7 @@ nav {
 .nav__icons span a:hover {
   color: var(--primary-color);
 }
-.no__bullets {
-  list-style-type: none;
-}
+
 .header__container {
   min-height: 650px;
   background-color: var(--primary-color-light);
@@ -575,7 +572,7 @@ nav {
   }
 }
 
-.nav__icons span a.dropdown-items {
+.nav__icons span a.dropdown-items{
   font-size: 16px;
 }
 
@@ -586,9 +583,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .add-product-InputCSS {
-  @apply mt-1 block py-2.5 px-4 w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
+  @apply mt-1 block py-2.5 px-4 w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm
 }
 
-.add-product-btn {
-  @apply mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+.add-product-btn{
+  @apply mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
 }

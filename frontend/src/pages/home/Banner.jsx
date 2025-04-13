@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
+
 import bannerImg from "../../assets/header.png";
 
 const Banner = () => {
@@ -8,12 +9,16 @@ const Banner = () => {
       <div className="header__content z-30">
         <h4 className="uppercase">UP TO 20% Discount on</h4>
         <h1>Girl's Fashion</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto repudiandae temporibus laboriosam vero ad distinctio. Quod doloremque minus, omnis minima vel libero blanditiis consequatur tenetur, dicta quisquam illo aliquid perspiciatis?</p>
+        <p>
+          Discover the latest trends and express your unique style with our
+          Women's Fashion website. Explore a curated collection of clothing,
+          accessories, and footwear that caters to every taste and occasion.
+        </p>
         <button className="btn">
-          <Link to="/shop">Expolore now</Link>
+          <Link to="/shop">EXPLORE NOW</Link>
         </button>
       </div>
-      <div className="header__images">
+      <div className="header__image">
         <img src={bannerImg} alt="banner image" />
       </div>
     </div>
