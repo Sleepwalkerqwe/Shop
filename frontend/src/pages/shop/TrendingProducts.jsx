@@ -1,7 +1,7 @@
-import React from "react";
-import ProductCards from "./ProductCards";
+import React from 'react';
+import ProductCards from './ProductCards';
 
-import products from "../../data/products.json";
+import products from '../../data/products.json';
 
 const TrendingProducts = () => {
   const [visibleProducts, setVisibleProducts] = React.useState(8);
@@ -12,10 +12,7 @@ const TrendingProducts = () => {
   return (
     <section className="section__container product__container">
       <h2 className="section__header">Trending Products</h2>
-      <p className="section__subheader mb-12">
-        Discover the Hottest Picks: Elevate Your Style with Our Curated
-        Collection of Trending Women's Fashion Products.
-      </p>
+      <p className="section__subheader mb-12">Discover the Hottest Picks: Elevate Your Style with Our Curated Collection of Trending Women's Fashion Products.</p>
 
       {/* products card */}
       <div className="mt-12">

@@ -6,8 +6,8 @@ const router = express.Router();
 // Register API endpoint
 router.post("/register", async (req, res) => {
   try {
-    const { userName, email, password, role } = req.body;
-    const user = new User({ userName, email, password, role });
+    const { username, email, password, role } = req.body;
+    const user = new User({ username, email, password, role });
 
     await user.save();
     console.log("user registered successfully", ` user email - ${email}`);
@@ -43,11 +43,10 @@ router.post("/login", async (req, res) => {
       user: {
         _id: user._id,
         email: user.email,
-        userName: user.userName,
+        username: user.username,
         role: user.role,
         profileImage: user.profileImage,
         bio: user.bio,
-        proffession: user.proffesion,
       },
     });
     //
@@ -78,7 +77,7 @@ router.delete("/user/:id", async (req, res) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
     const users = await User.find({}, "id email role").sort({ createdAt: -1 });
 
@@ -97,7 +96,7 @@ router.put("/user/:id", async (req, res) => {
     const user = await User.findByIdAndUpdate(id, { role }, { new: true });
 
     if (!user) res.status(404).send({ message: "user not found" });
-    res.status(200).send({ userInfo: { userName: user.userName, email: user.email, role: user.role } });
+    res.status(200).send({ user: { username: user.username, email: user.email, role: user.role } });
   } catch (err) {
     console.error("Error updating user", err);
     res.status(500).send({ message: "Error updating" });
@@ -107,19 +106,19 @@ router.put("/user/:id", async (req, res) => {
 //
 router.patch("/edit-profile", async (req, res) => {
   try {
-    const { userId, username, profileImage, bio, proffesion } = req.body;
+    const { userId, username, profileImage, bio } = req.body;
+
     if (!userId) return res.status(400).send({ message: "User id is required" });
 
-    const user = await User.finById(userId);
+    const user = await User.findById(userId);
 
     // update profile
     if (username !== undefined) user.username = username;
     if (profileImage !== undefined) user.profileImage = profileImage;
     if (bio !== undefined) user.bio = bio;
-    if (proffesion !== undefined) user.proffesion = proffesion;
 
     await user.save();
-    res.status(200).send({ message: "user updated successfully", userInfo: { userName: user.userName, email: user.email, role: user.role } });
+    res.status(200).send({ message: "user updated successfully", user });
   } catch (err) {
     console.error("Error updating user profile", err);
     res.status(500).send({ message: "Error updating user profile" });

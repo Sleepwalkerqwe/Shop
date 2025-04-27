@@ -65,11 +65,11 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const productId = req.params.id;
-    const product = await Product.findById(productId).populate("author", "email userName");
+    const product = await Product.findById(productId).populate("author", "email username");
 
     if (!product) return res.status(404).send({ message: "Product not found" });
 
-    const reviews = await Review.find({ productId }).populate("userId", "email userName");
+    const reviews = await Review.find({ productId }).populate("userId", "email username");
     res.status(200).send({ product, reviews });
   } catch (err) {
     console.error("Error getting product", err);

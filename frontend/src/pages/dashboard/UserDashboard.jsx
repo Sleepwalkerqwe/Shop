@@ -1,18 +1,16 @@
-import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import {
-  useLoginUserMutation,
-  useLogoutUserMutation,
-} from "../../redux/features/auth/authApi";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/features/auth/authSlice";
+import React from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useLoginUserMutation, useLogoutUserMutation } from '../../redux/features/auth/authApi';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/features/auth/authSlice';
+import toastr from '../../utils/toastConfig';
 
 const navItems = [
-  { path: "/dashboard", label: "Dashboard" },
-  { path: "/dashboard/orders", label: "Order" },
-  { path: "/dashboard/payments", label: "Payments" },
-  { path: "/dashboard/profile", label: "Profile" },
-  { path: "/dashboard/reviews", label: "Reviews" },
+  { path: '/dashboard', label: 'Dashboard' },
+  { path: '/dashboard/orders', label: 'Order' },
+  { path: '/dashboard/payments', label: 'Payments' },
+  { path: '/dashboard/profile', label: 'Profile' },
+  { path: '/dashboard/reviews', label: 'Reviews' },
 ];
 
 const UserDashboard = () => {
@@ -24,9 +22,10 @@ const UserDashboard = () => {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      navigate("/");
+      navigate('/login');
+      toastr.success('Logout successfully');
     } catch (error) {
-      console.error("Failed to log out", error);
+      console.error('Failed to log out', error);
     }
   };
   return (
@@ -42,13 +41,7 @@ const UserDashboard = () => {
         <ul className="space-y-5 pt-5">
           {navItems.map((item) => (
             <li key={item.path}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "text-blue-600 font-bold" : "text-black"
-                }
-                end
-                to={item.path}
-              >
+              <NavLink className={({ isActive }) => (isActive ? 'text-blue-600 font-bold' : 'text-black')} end to={item.path}>
                 {item.label}
               </NavLink>
             </li>
@@ -58,10 +51,7 @@ const UserDashboard = () => {
 
       <div className="mb-3">
         <hr className="mb-3" />
-        <button
-          onClick={handleLogout}
-          className="text-white bg-primary font-medium px-5 py-1 rounded-sm"
-        >
+        <button onClick={handleLogout} className="text-white bg-primary font-medium px-5 py-1 rounded-sm">
           Logout
         </button>
       </div>

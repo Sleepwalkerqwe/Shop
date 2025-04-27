@@ -28,6 +28,10 @@ const reviewRoutes = require("./src/reviews/reviewRoute");
 const orderRoutes = require("./src/orders/ordersRoute");
 const statsRoutes = require("./src/stats/statsRoute");
 
+// image upload
+const uploadImage = require("./src/utils/uploadImage");
+
+// all routes
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/review", reviewRoutes);
@@ -42,13 +46,13 @@ async function connectDB() {
     console.log(`database error - ${err} ❌`);
   }
 }
-
-app.get("/", (req, res) => {
-  console.log("get request - 200");
-  res.send("Hello world");
-});
-
 app.listen(port, () => {
   connectDB();
   console.log(`listening on port - ${port}`);
+});
+
+app.post("/uploadImage", (req, res) => {
+  uploadImage(req.body.image)
+    .then((url) => res.send(url))
+    .catch((err) => res.status(500).send(err));
 });

@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-import toastr from "../utils/toastConfig";
+import toastr from '../utils/toastConfig';
 
-import { useLoginUserMutation } from "../redux/features/auth/authApi";
-import { setUser } from "../redux/features/auth/authSlice";
+import { useLoginUserMutation } from '../redux/features/auth/authApi';
+import { setUser } from '../redux/features/auth/authSlice';
 
 const Login = () => {
-  const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const disptach = useDispatch();
   const [loginUser, { isLoading: loginLoading }] = useLoginUserMutation();
@@ -31,12 +31,12 @@ const Login = () => {
       disptach(setUser({ user }));
 
       // Display a success toast, with a title
-      toastr.success("Successfully login!");
+      toastr.success('Successfully login!');
       setTimeout(() => {
-        navigate("/");
+        navigate('/');
       }, 1000);
     } catch (error) {
-      toastr.error("Please provide a valid email and password");
+      toastr.error('Incorrect email or password');
     }
   };
 
@@ -44,34 +44,12 @@ const Login = () => {
     <section className="h-screen flex items-center justify-center">
       <div className="max-w-sm border shadow bg-white mx-auto p-8">
         <h2 className="text-2xl font-semibold pt-5">Please Login</h2>
-        <form
-          onSubmit={handleLogin}
-          className="space-y-5 max-w-sm mx-auto pt-8"
-        >
-          <input
-            type="email"
-            name="email"
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email Address"
-            required
-            className="w-full bg-gray-100 focus:outline-none px-5 py-3"
-          />
-          <input
-            type="password"
-            name="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            className="w-full bg-gray-100 focus:outline-none px-5 py-3"
-          />
+        <form onSubmit={handleLogin} className="space-y-5 max-w-sm mx-auto pt-8">
+          <input type="email" name="email" id="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" required className="w-full bg-gray-100 focus:outline-none px-5 py-3" />
+          <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required className="w-full bg-gray-100 focus:outline-none px-5 py-3" />
           {message && <p className="text-red-500">{message}</p>}
 
-          <button
-            type="submit"
-            className="w-full mt-5 bg-primary text-white hover:bg-indigo-500 font-medium py-3 rounded-md"
-          >
+          <button type="submit" className="w-full mt-5 bg-primary text-white hover:bg-indigo-500 font-medium py-3 rounded-md">
             Login
           </button>
         </form>
@@ -80,7 +58,7 @@ const Login = () => {
           Don't have an account?
           <Link to="/register" className="text-red-700 px-1 underline">
             Register
-          </Link>{" "}
+          </Link>{' '}
           here.
         </p>
       </div>

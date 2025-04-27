@@ -31,7 +31,7 @@ const authApi = createApi({
     }),
     getUser: builder.query({
       query: () => ({
-        url: "/users",
+        url: "/user",
         method: "GET",
       }),
       refetchOnMount: true,
@@ -39,14 +39,14 @@ const authApi = createApi({
     }),
     deleteUser: builder.mutation({
       query: (userId) => ({
-        url: `/users/${userId}`,
+        url: `/user/${userId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["User"],
     }),
     updateUserRole: builder.mutation({
       query: ({ userId, role }) => ({
-        url: `/users/${userId}`,
+        url: `/user/${userId}`,
         method: "PUT",
         body: { role },
       }),

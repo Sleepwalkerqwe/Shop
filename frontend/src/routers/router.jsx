@@ -51,6 +51,7 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  
   // dashboard routes start here
   {
     path: "/dashboard",

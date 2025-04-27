@@ -1,15 +1,15 @@
-import React from "react";
-import { useLogoutUserMutation } from "../../redux/features/auth/authApi";
-import { useDispatch } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { logout } from "../../redux/features/auth/authSlice";
+import React from 'react';
+import { useLogoutUserMutation } from '../../redux/features/auth/authApi';
+import { useDispatch } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../../redux/features/auth/authSlice';
 
 const navItems = [
-  { path: "/dashboard/admin", label: "Dashboard" },
-  { path: "/dashboard/add-product", label: "Add Product" },
-  { path: "/dashboard/manage-products", label: "Manage Products" },
-  { path: "/dashboard/users", label: "Users" },
-  { path: "/dashboard/manage-orders", label: "Manage Orders" },
+  { path: '/dashboard/admin', label: 'Dashboard' },
+  { path: '/dashboard/add-product', label: 'Add Product' },
+  { path: '/dashboard/manage-products', label: 'Manage Products' },
+  { path: '/dashboard/users', label: 'Users' },
+  { path: '/dashboard/manage-orders', label: 'Manage Orders' },
 ];
 const AdminDashboard = () => {
   const [logoutUser] = useLogoutUserMutation();
@@ -20,9 +20,9 @@ const AdminDashboard = () => {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      navigate("/");
+      navigate('/login');
     } catch (error) {
-      console.error("Failed to log out", error);
+      console.error('Failed to log out', error);
     }
   };
   return (
@@ -38,13 +38,7 @@ const AdminDashboard = () => {
         <ul className="space-y-5 pt-5">
           {navItems.map((item) => (
             <li key={item.path}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "text-blue-600 font-bold" : "text-black"
-                }
-                end
-                to={item.path}
-              >
+              <NavLink className={({ isActive }) => (isActive ? 'text-blue-600 font-bold' : 'text-black')} end to={item.path}>
                 {item.label}
               </NavLink>
             </li>
@@ -54,10 +48,7 @@ const AdminDashboard = () => {
 
       <div className="mb-3">
         <hr className="mb-3" />
-        <button
-          onClick={handleLogout}
-          className="text-white bg-primary font-medium px-5 py-1 rounded-sm"
-        >
+        <button onClick={handleLogout} className="text-white bg-primary font-medium px-5 py-1 rounded-sm">
           Logout
         </button>
       </div>

@@ -1,14 +1,14 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-import toastr from "../utils/toastConfig";
+import toastr from '../utils/toastConfig';
 
-import CartModal from "../pages/shop/CartModal";
+import CartModal from '../pages/shop/CartModal';
 
-import avatarImg from "../assets/avatar.png";
-import { useLogoutUserMutation } from "../redux/features/auth/authApi";
-import { logout } from "../redux/features/auth/authSlice";
+import avatarImg from '../assets/avatar.png';
+import { useLogoutUserMutation } from '../redux/features/auth/authApi';
+import { logout } from '../redux/features/auth/authSlice';
 
 const Navbar = () => {
   const products = useSelector((state) => state.cart.products);
@@ -20,7 +20,7 @@ const Navbar = () => {
   const dropDownRef = React.useRef(null);
 
   const handleCartToggle = () => {
-    console.log("hdfgds");
+    console.log('hdfgds');
     setIsCartOpen(!isCartOpen);
     console.log(isCartOpen);
   };
@@ -39,47 +39,41 @@ const Navbar = () => {
 
   // admin dropdown menus
   const adminDropDownMenus = [
-    { label: "Dashboard", path: "/dashboard/admin" },
-    { label: "Manage Items", path: "/dashboard/manage-products" },
-    { label: "All Orders", path: "/dashboard/manage-orders" },
-    { label: "Add Product", path: "/dashboard/add-product" },
+    { label: 'Dashboard', path: '/dashboard/admin' },
+    { label: 'Manage Items', path: '/dashboard/manage-products' },
+    { label: 'All Orders', path: '/dashboard/manage-orders' },
+    { label: 'Add Product', path: '/dashboard/add-product' },
   ];
 
   // user dropdown menus
   const userDropDownMenus = [
-    { label: "Dashboard", path: "/dashboard" },
-    { label: "Profile", path: "/dashboard/profile" },
-    { label: "Payments", path: "/dashboard/payments" },
-    { label: "Orders", path: "/dashboard/orders" },
+    { label: 'Dashboard', path: '/dashboard' },
+    { label: 'Profile', path: '/dashboard/profile' },
+    { label: 'Payments', path: '/dashboard/payments' },
+    { label: 'Orders', path: '/dashboard/orders' },
   ];
 
-  const dropdownMenus =
-    user?.role === "admin" ? [...adminDropDownMenus] : [...userDropDownMenus];
+  const dropdownMenus = user?.role === 'admin' ? [...adminDropDownMenus] : [...userDropDownMenus];
 
   const handleLogout = async () => {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      toastr.success("Successfully logout!");
+      toastr.success('Successfully logout!');
     } catch (error) {
-      toastr.error("Failed to log out", error);
+      toastr.error('Failed to log out', error);
     }
   };
 
   React.useEffect(() => {
     const handleClickOutside = (event) => {
       // Check if clicked outside cart modal and cart button
-      const clickedOutsideCart =
-        cartRef.current && !cartRef.current.contains(event.target);
-      const clickedOutsideButton =
-        cartButtonRef.current && !cartButtonRef.current.contains(event.target);
+      const clickedOutsideCart = cartRef.current && !cartRef.current.contains(event.target);
+      const clickedOutsideButton = cartButtonRef.current && !cartButtonRef.current.contains(event.target);
 
       // Check if clicked outside dropdown menu and button
-      const clickedOutsideDropDown =
-        dropDownRef.current && !dropDownRef.current.contains(event.target);
-      const clickedOutsideDropDownButton =
-        dropDownButtonRef.current &&
-        !dropDownButtonRef.current.contains(event.target);
+      const clickedOutsideDropDown = dropDownRef.current && !dropDownRef.current.contains(event.target);
+      const clickedOutsideDropDownButton = dropDownButtonRef.current && !dropDownButtonRef.current.contains(event.target);
 
       // Close cart if clicked outside cart and button
       if (clickedOutsideCart && clickedOutsideButton) {
@@ -93,18 +87,18 @@ const Navbar = () => {
     };
 
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setIsCartOpen(false);
         setIsDropDownOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
@@ -143,80 +137,34 @@ const Navbar = () => {
 
           {/* cart btn */}
           <div className="relative">
-            <button
-              ref={cartButtonRef}
-              onClick={handleCartToggle}
-              className="hover:text-primary"
-            >
+            <button ref={cartButtonRef} onClick={handleCartToggle} className="hover:text-primary">
               <i className="ri-shopping-bag-line"></i>
-              <sup className="text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center">
-                {products.length}
-              </sup>
+              <sup className="text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center">{products.length}</sup>
             </button>
 
-            {isCartOpen && (
-              <CartModal
-                ref={cartRef}
-                products={products}
-                isOpen={isCartOpen}
-                onClose={handleCartToggle}
-              />
-            )}
+            {isCartOpen && <CartModal ref={cartRef} products={products} isOpen={isCartOpen} onClose={handleCartToggle} />}
           </div>
 
           {/* user icon */}
           <span>
             {user && user ? (
               <>
-                <img
-                  ref={dropDownButtonRef}
-                  onClick={handDropDownToggle}
-                  src={user?.profileImage || avatarImg}
-                  alt=""
-                  className="size-6 rounded-full cursor-pointer"
-                />
+                <img ref={dropDownButtonRef} onClick={handDropDownToggle} src={user?.profileImage || avatarImg} alt="" className="size-6 rounded-full cursor-pointer" />
 
                 {/* dropdown menu */}
                 {isDropDownOpen && (
-                  <div
-                    ref={dropDownRef}
-                    className="absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-                  >
+                  <div ref={dropDownRef} className="absolute right-0 mt-3 p-4 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                     <ul className="font-medium space-y-4 p-2">
                       {/* Map through dropdown menu items */}
+                      {dropdownMenus.map((menu, index) => (
+                        <li key={index}>
+                          <Link onClick={() => setIsDropDownOpen(false)} className="dropdown-items" to={menu.path}>
+                            {menu.label}
+                          </Link>
+                        </li>
+                      ))}
                       <li>
-                        <Link
-                          onClick={() => setIsDropDownOpen(false)}
-                          className="dropdown-items"
-                          to="/dashboard"
-                        >
-                          Dashboard
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          onClick={() => setIsDropDownOpen(false)}
-                          className="dropdown-items"
-                          to="/profile"
-                        >
-                          Profile
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          onClick={() => setIsDropDownOpen(false)}
-                          className="dropdown-items"
-                          to="/settings"
-                        >
-                          Settings
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          onClick={() => setIsDropDownOpen(false)}
-                          className="dropdown-items"
-                          to="/logout"
-                        >
+                        <Link onClick={handleLogout} className="dropdown-items">
                           Logout
                         </Link>
                       </li>
