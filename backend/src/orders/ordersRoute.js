@@ -2,6 +2,7 @@ const express = require("express");
 const Order = require("./OrdersModel");
 const verifyToken = require("../middleware/verifyToken");
 const { verifyAdmin } = require("../middleware/virifyAdmin");
+const Product = require("../products/ProductModel");
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
@@ -30,7 +31,10 @@ router.post("/create-checkout-session", verifyToken, async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items: lineItems,
-      success_url: `https://shop-lovat-seven.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+
+      // success_url: `https://shop-lovat-seven.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
+
       cancel_url: `https://shop-lovat-seven.vercel.app/cancel`,
       customer_email: req.email,
       customer_creation: "always",
@@ -101,9 +105,14 @@ router.get("/:email", async (req, res) => {
 router.get("/order/:id", async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
-
     if (!order) return res.status(400).send({ order: 0, message: "No orders found for this id" });
-    res.status(200).send(order);
+    console.log("order", order);
+
+    const productIds = order.products.map((p) => p.productId);
+
+    const products = await Product.find({ _id: { $in: productIds } });
+    console.log(products);
+    res.status(200).send({ order, products });
   } catch (err) {
     console.error("Error getting orders by user id", err);
     res.status(500).send({ message: "Failed getting orders by user id" });
