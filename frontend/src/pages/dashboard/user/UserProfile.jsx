@@ -41,8 +41,8 @@ const UserProfile = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleImageUpload = (url) => {
-    setImage(url); // необязательно, можно удалить
     setformData((prev) => ({
       ...prev,
       profileImage: url,
@@ -53,7 +53,7 @@ const UserProfile = () => {
     e.preventDefault();
     const updatedUser = {
       username: formData.username,
-      profileImage: image,
+      profileImage: formData.profileImage,
       bio: formData.bio,
       userId: formData.userId || user?._id,
     };
@@ -87,8 +87,8 @@ const UserProfile = () => {
           </div>
           <button onClick={() => setIsModalOpen(true)} className="ml-auto text-blue-500 hover:text-blue-700">
             {/* Edit profile */}
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 3H4a1 1 0 00-1 1v14a1 1 0 001 1h7m2 0h7a1 1 0 001-1V4a1 1 0 00-1-1h-7m-2 0v14"></path>
+            <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16.7574 2.99678L14.7574 4.99678H5V18.9968H19V9.23943L21 7.23943V19.9968C21 20.5491 20.5523 20.9968 20 20.9968H4C3.44772 20.9968 3 20.5491 3 19.9968V3.99678C3 3.4445 3.44772 2.99678 4 2.99678H16.7574ZM20.4853 2.09729L21.8995 3.5115L12.7071 12.7039L11.2954 12.7064L11.2929 11.2897L20.4853 2.09729Z"></path>
             </svg>
           </button>
         </div>
@@ -111,14 +111,6 @@ const UserProfile = () => {
                 <input type="text" name="username" value={formData?.username} onChange={handleChange} placeholder="username" className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" required />
               </div>
 
-              {/* profile Image */}
-              {/* <div className="mb-4">
-                <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700 ">
-                  Profile Image Url
-                </label>
-                <input type="text" name="profileImage" value={formData?.profileImage} onChange={handleChange} placeholder="profileImage url" className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
-              </div> */}
-              {/* <UploadImage name="image" id="image" value={(e) => setImage(e.target.value)} placeholder="Image" setImage={setImage} /> */}
               <UploadImage name="image" id="image" setImage={handleImageUpload} />
               {/*  */}
 

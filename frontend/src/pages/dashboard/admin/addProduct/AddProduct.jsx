@@ -11,7 +11,6 @@ import SelectInput from './SelectInput';
 import UploadImage from './UploadImage';
 
 const categories = [
-  { label: 'Select Category', value: '' },
   { label: 'Accessories', value: 'accessories' },
   { label: 'Dress', value: 'dress' },
   { label: 'Jewellery', value: 'jewellery' },
@@ -20,7 +19,6 @@ const categories = [
 ];
 
 const colors = [
-  { label: 'Select Color', value: '' },
   { label: 'Black', value: 'black' },
   { label: 'Red', value: 'red' },
   { label: 'Gold', value: 'gold' },
@@ -44,12 +42,21 @@ const AddProduct = () => {
 
   const [AddProduct, { isLoading, error }] = useAddProductMutation();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
-    });
+  const handleChange = (eOrName, value) => {
+    if (typeof eOrName === 'string') {
+      // вызов из кастомного SelectInput
+      setProduct((prev) => ({
+        ...prev,
+        [eOrName]: value,
+      }));
+    } else {
+      // обычный input
+      const { name, value } = eOrName.target;
+      setProduct((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const navigate = useNavigate();
@@ -77,8 +84,12 @@ const AddProduct = () => {
       <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <TextInput label="Product Name" name="name" placeholder="Ex: Diamond Earrings" value={product.name} onChange={handleChange} />
-        <SelectInput label="Category" name="category" value={product.category} onChange={handleChange} options={categories} />
+        <div>
+          <SelectInput label="Category" name="category" value={product.category} onChange={handleChange} options={categories} />
+        </div>
+
         <SelectInput label="Color" name="color" value={product.color} onChange={handleChange} options={colors} />
+
         <TextInput label="Price" name="price" type="number" placeholder="50" value={product.price} onChange={handleChange} />
 
         <UploadImage name="image" id="image" value={(e) => setImage(e.target.value)} placeholder="Image" setImage={setImage} />

@@ -41,9 +41,9 @@ const ManageUser = () => {
       <section className="py-1 bg-blueGray-50">
         <div className="w-full  mb-12 xl:mb-0 px-4 mx-auto">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-            <div className="rounded-t mb-0 px-4 py-3 border-0">
+            <div className="rounded-t mb-0 py-3 border-0">
               <div className="flex flex-wrap items-center">
-                <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+                <div className="relative w-full max-w-full flex-grow flex-1">
                   <h3 className="font-semibold text-base text-blueGray-700">All Users</h3>
                 </div>
                 <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
@@ -75,14 +75,14 @@ const ManageUser = () => {
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           <span className={`rounded-full py-[2px] px-3 ${user?.role === 'admin' ? 'bg-indigo-500 text-white ' : 'bg-amber-300'}`}> {user?.role}</span>
                         </td>
-                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 cursor-pointer hover:text-primary">
-                          <button onClick={() => handleEdit(user)} className="flex gap-1 items-center hover:text-red-500">
-                            <i className="ri-edit-2-line"></i>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                          <button onClick={() => handleEdit(user)} className="flex gap-1 items-center cursor-pointer transition-all duration-300 ease-in-out hover:text-red-500 ">
+                            <i className="ri-edit-2-line "></i>
                             Edit
                           </button>
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <button onClick={() => handleDelete(user?._id)} className="bg-red-600 text-white px-2 py-1">
+                          <button onClick={() => handleDelete(user?._id)} className="bg-red-600 hover:bg-red-900  font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105">
                             Delete
                           </button>
                         </td>
@@ -93,27 +93,6 @@ const ManageUser = () => {
             </div>
           </div>
         </div>
-
-        <footer className="relative pt-8 pb-6 mt-16">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-wrap items-center md:justify-between justify-center">
-              <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                <div className="text-sm text-blueGray-500 font-semibold py-1">
-                  Made with{' '}
-                  <a href="https://www.creative-tim.com/product/notus-js" className="text-blueGray-500 hover:text-gray-800" target="_blank">
-                    Notus JS
-                  </a>{' '}
-                  by{' '}
-                  <a href="https://www.creative-tim.com" className="text-blueGray-500 hover:text-blueGray-800" target="_blank">
-                    {' '}
-                    Creative Tim
-                  </a>
-                  .
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </section>
 
       {isModalOpen && <UpdateUserModal user={selectedUser} onClose={handleCloseModal} onRoleUpdate={refetch} />}

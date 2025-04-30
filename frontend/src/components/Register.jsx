@@ -41,8 +41,6 @@ const Register = () => {
       const { token, user } = response;
       dispatch(setUser({ user }));
 
-      // Display a success toast, with a title
-      toastr.success('Successfully login!');
       setTimeout(() => {
         navigate('/');
       }, 1000);

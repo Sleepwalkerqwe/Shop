@@ -50,15 +50,16 @@ const ManageProduct = () => {
       <section className="py-1 bg-blueGray-50">
         <div className="w-full  mb-12 xl:mb-0 px-4 mx-auto">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-            <div className="rounded-t mb-0 px-4 py-3 border-0">
+            <div className="rounded-t mb-0 py-3 border-0">
               <div className="flex flex-wrap items-center">
-                <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+                <div className="relative w-full max-w-full flex-grow flex-1">
                   <h3 className="font-semibold text-base text-blueGray-700">All Products</h3>
                 </div>
-                <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                  <button className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+                <div className="relative w-full max-w-full flex-grow flex-1 text-right">
+                  <button className="bg-indigo-500 hover:bg-indigo-900 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1  ease-linear transition-all duration-150 hover:scale-105" type="button">
                     See all
                   </button>
+                  {/* <button onClick={() => handleDelete(user?._id)} className="bg-red-600 hover:bg-red-900 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105"> */}
                 </div>
               </div>
               <h3 className="my-4  text-sm">
@@ -85,11 +86,13 @@ const ManageProduct = () => {
                         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">{index + 1}</th>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">{product?.name}</td>
                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{formatDate(product?.createdAt)}</td>
-                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 cursor-pointer hover:text-primary">
-                          <Link to={`/dashboard/update-product/${product._id}`}> Edit</Link>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                          <Link to={`/dashboard/update-product/${product._id}`} className="cursor-pointer transition-all duration-300 ease-in-out  hover:text-primary">
+                            Edit
+                          </Link>
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <button onClick={() => handleDeleteProduct(product._id)} className="bg-red-600 text-white px-2 py-1">
+                          <button onClick={() => handleDeleteProduct(product._id)} className="bg-red-600 hover:bg-red-900 font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105">
                             Delete
                           </button>
                         </td>
@@ -115,27 +118,6 @@ const ManageProduct = () => {
             Next
           </button>
         </div>
-
-        <footer className="relative pt-8 pb-6 mt-16">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-wrap items-center md:justify-between justify-center">
-              <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                <div className="text-sm text-blueGray-500 font-semibold py-1">
-                  Made with{' '}
-                  <a href="https://www.creative-tim.com/product/notus-js" className="text-blueGray-500 hover:text-gray-800" target="_blank">
-                    Notus JS
-                  </a>{' '}
-                  by{' '}
-                  <a href="https://www.creative-tim.com" className="text-blueGray-500 hover:text-blueGray-800" target="_blank">
-                    {' '}
-                    Creative Tim
-                  </a>
-                  .
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
       </section>
     </>
   );

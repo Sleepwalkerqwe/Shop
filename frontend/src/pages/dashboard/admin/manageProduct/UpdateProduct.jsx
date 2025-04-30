@@ -8,7 +8,6 @@ import UploadImage from '../addProduct/UploadImage';
 import toastr from '../../../../utils/toastConfig';
 
 const categories = [
-  { label: 'Select Category', value: '' },
   { label: 'Accessories', value: 'accessories' },
   { label: 'Dress', value: 'dress' },
   { label: 'Jewellery', value: 'jewellery' },
@@ -16,7 +15,6 @@ const categories = [
 ];
 
 const colors = [
-  { label: 'Select Color', value: '' },
   { label: 'Black', value: 'black' },
   { label: 'Red', value: 'red' },
   { label: 'Gold', value: 'gold' },
@@ -60,12 +58,21 @@ const UpdateProduct = () => {
     }
   }, [productData]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
-    });
+  const handleChange = (eOrName, value) => {
+    if (typeof eOrName === 'string') {
+      // вызов из кастомного SelectInput
+      setProduct((prev) => ({
+        ...prev,
+        [eOrName]: value,
+      }));
+    } else {
+      // обычный input
+      const { name, value } = eOrName.target;
+      setProduct((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleImageChange = (image) => {

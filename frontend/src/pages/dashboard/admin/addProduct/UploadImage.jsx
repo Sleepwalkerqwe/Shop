@@ -4,9 +4,9 @@ import axios from 'axios';
 import toastr from '../../../../utils/toastConfig';
 
 import { getBaseUrl } from '../../../../utils/baseURL';
+
 const UploadImage = ({ name, setImage }) => {
   const [loading, setLoading] = React.useState(false);
-  const [url, setUrl] = React.useState('');
 
   // base64 functionality
 
@@ -32,7 +32,6 @@ const UploadImage = ({ name, setImage }) => {
       .post(`${getBaseUrl()}/uploadImage`, { image: base64 })
       .then((res) => {
         const imageUrl = res.data;
-        setUrl(imageUrl);
         // console.log(imageUrl);
         toastr.success('Image uploaded successfully');
         setImage(imageUrl);
@@ -40,6 +39,7 @@ const UploadImage = ({ name, setImage }) => {
       .then(() => setLoading(false))
       .catch((error) => {
         console.error(error);
+        toastr.error('Failed to upload image');
         setLoading(false);
       });
   };
@@ -65,14 +65,8 @@ const UploadImage = ({ name, setImage }) => {
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
         Upload Image
       </label>
-      <input type="file" name={name} id={name} onChange={uploadImage} className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
+      <input type="file" accept="image/*" name={name} id={name} onChange={uploadImage} className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm" />
       {loading && <div className="mt-2 text-sm text-blue-600">uploading...</div>}
-      {url && (
-        <div className="mt-2 text-sm text-green-600">
-          <p>Image uploaded successfully!</p>
-          <img src={url} alt="uploaded-image" />
-        </div>
-      )}
     </div>
   );
 };

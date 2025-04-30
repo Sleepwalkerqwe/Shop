@@ -26,7 +26,7 @@ const AdminDashboard = () => {
     }
   };
   return (
-    <div className="space-y-5 bg-white p-8 md:h-screen flex flex-col justify-between">
+    <div className="space-y-5 bg-white p-7 md:h-screen flex flex-col justify-between">
       <div>
         <div className="nav__logo">
           <Link to="/">
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
         <ul className="space-y-5 pt-5">
           {navItems.map((item) => (
             <li key={item.path}>
-              <NavLink className={({ isActive }) => (isActive ? 'text-blue-600 font-bold' : 'text-black')} end to={item.path}>
+              <NavLink className={({ isActive }) => `transition-all duration-300 transform inline-block ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-blue-600 hover:scale-105'}`} end to={item.path}>
                 {item.label}
               </NavLink>
             </li>
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
 
       <div className="mb-3">
         <hr className="mb-3" />
-        <button onClick={handleLogout} className="text-white bg-primary font-medium px-5 py-1 rounded-sm">
+        <button onClick={handleLogout} className="text-white bg-primary hover:bg-red-800  shadow-md transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105 font-medium px-5 py-1 rounded-sm">
           Logout
         </button>
       </div>
